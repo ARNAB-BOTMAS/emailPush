@@ -16,7 +16,7 @@ def send_push_notification():
     #     return jsonify({'status': False})
 
     pb = Pushbullet(key)
-    push = pb.push_note('Web Message', F'{name} want to talk')
+    push = pb.push_note('Web Message', f'{name} want to talk')
     if push:
         return jsonify({'status': True})
     else:
