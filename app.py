@@ -5,15 +5,15 @@ app = Flask(__name__)
 
 # Replace with your FCM server key
 key = ("o.wfjOUuNbwNCinQbZRgocfYY19wQxozvW")
-authentication_key = "amas@8016"
+# authentication_key = "amas@8016"
 
 # # Web push notification route
 @app.route('/send', methods=['GET'])
 def send_push_notification():
     name = request.args.get('name')
-    provided_key = request.headers.get('Authorization')
-    if not provided_key or provided_key != f'Bearer {authentication_key}':
-        return jsonify({'status': False}), 401
+    # provided_key = request.headers.get('Authorization')
+    # if not provided_key or provided_key != f'Bearer {authentication_key}':
+    #     return jsonify({'status': False})
 
     pb = Pushbullet(key)
     push = pb.push_note('Web Message', F'{name} want to talk')
