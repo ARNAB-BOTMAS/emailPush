@@ -1,0 +1,49 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Push Notification Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    #notificationBtn {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js"></script>
+</head>
+<body>
+
+  <h1>Push Notification Demo</h1>
+  <p>Click the button below to receive a web notification.</p>
+
+  <button id="notificationBtn">Enable Web Notification</button>
+
+  <script>
+    const socket = io.connect('http://' + document.domain + ':' + location.port);
+
+    document.getElementById('notificationBtn').addEventListener('click', function() {
+      Notification.requestPermission().then(function(permission) {
+        if (permission === 'granted') {
+          socket.emit('notify', { message: 'Hello Web Notification' });
+        }
+      });
+    });
+
+    socket.on('show_notification', function(data) {
+      const notify = new Notification("Web Notification", {
+        body: data.message,
+        tag: "Hello"
+      });
+    });
+  </script>
+
+</body>
+</html>
